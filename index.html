@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Rock Paper Scissors</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+
+    .hand {
+      animation: idle 2s ease-in-out infinite;
+    }
+
+    .shaking {
+      animation: shake 0.35s ease-in-out infinite;
+    }
+
+    .reveal {
+      animation: reveal 0.35s ease-out;
+    }
+
+    @keyframes winnerPop {
+      0% {
+        transform: scale(0.4);
+        opacity: 0;
+      }
+
+      70% {
+        transform: scale(1.08);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .firework {
+      position: absolute;
+      font-size: 4rem;
+      animation: firework 1.4s ease-out infinite;
+    }
+
+    .firework-1 {
+      top: 15%;
+      left: 15%;
+    }
+
+    .firework-2 {
+      top: 20%;
+      right: 15%;
+      animation-delay: 0.3s;
+    }
+
+    .firework-3 {
+      top: 55%;
+      left: 8%;
+      animation-delay: 0.6s;
+    }
+
+    .firework-4 {
+      top: 60%;
+      right: 10%;
+      animation-delay: 0.9s;
+    }
+
+    .firework-5 {
+      top: 10%;
+      left: 48%;
+      animation-delay: 0.45s;
+    }
+
+    @keyframes firework {
+      0% {
+        transform: scale(0);
+        opacity: 0;
+      }
+
+      30% {
+        transform: scale(1.5);
+        opacity: 1;
+      }
+
+      70% {
+        transform: scale(2.5);
+        opacity: 0.8;
+      }
+
+      100% {
+        transform: scale(3.5);
+        opacity: 0;
+      }
+    }
+
+    @keyframes idle {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-4px);
+      }
+    }
+
+    @keyframes shake {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      25% {
+        transform: translateY(-10px) rotate(-7deg);
+      }
+
+      50% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      75% {
+        transform: translateY(-10px) rotate(7deg);
+      }
+
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+    }
+
+    @keyframes reveal {
+      0% {
+        transform: scale(0.7);
+        opacity: 0.3;
+      }
+
+      70% {
+        transform: scale(1.12);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+  </style>
+
+</head>
+
+
+<body class="min-h-screen relative overflow-x-hidden
+             bg-[#03050b] text-white
+             flex items-center justify-center
+             px-4 py-5
+
+             bg-[radial-gradient(circle_at_15%_20%,rgba(34,211,238,0.12),transparent_28%),radial-gradient(circle_at_85%_15%,rgba(168,85,247,0.14),transparent_30%),radial-gradient(circle_at_50%_100%,rgba(59,130,246,0.10),transparent_35%)]">
+
+
+  <!-- FLOATING BACKGROUND ICONS -->
+
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+
+    <span class="absolute top-[14%] left-[5%]
+                 text-3xl opacity-[0.06]
+                 animate-[idle_5s_ease-in-out_infinite]">
+      ✊
+    </span>
+
+    <span class="absolute top-[28%] right-[7%]
+                 text-3xl opacity-[0.05]
+                 animate-[idle_6s_ease-in-out_infinite]
+                 [animation-delay:1s]">
+      ✌️
+    </span>
+
+    <span class="absolute bottom-[20%] left-[9%]
+                 text-2xl opacity-[0.05]
+                 animate-[idle_7s_ease-in-out_infinite]
+                 [animation-delay:2s]">
+      ✋
+    </span>
+
+    <span class="absolute bottom-[12%] right-[14%]
+                 text-2xl opacity-[0.05]
+                 animate-[idle_5s_ease-in-out_infinite]
+                 [animation-delay:1.5s]">
+      ✊
+    </span>
+
+    <span class="absolute top-[65%] left-[45%]
+                 w-1 h-1 rounded-full
+                 bg-cyan-300/20
+                 animate-pulse">
+    </span>
+
+    <span class="absolute top-[22%] left-[70%]
+                 w-1 h-1 rounded-full
+                 bg-purple-300/20
+                 animate-pulse
+                 [animation-delay:1s]">
+    </span>
+
+  </div>
+
+
+  <!-- MAIN -->
+
+  <main class="w-full max-w-3xl relative z-10">
+
+
+    <!-- HEADER -->
+
+    <header class="text-center mb-5">
+
+      <div class="inline-flex items-center justify-center
+                  w-12 h-12
+                  rounded-2xl
+                  bg-gradient-to-br
+                  from-cyan-400/20
+                  to-purple-500/20
+                  border border-white/10
+                  text-2xl
+                  mb-3
+                  shadow-[0_0_30px_rgba(34,211,238,0.12)]
+                  backdrop-blur-xl
+                  animate-[idle_2s_ease-in-out_infinite]">
+
+        🎮
+
+      </div>
+
+
+      <h1 class="text-2xl md:text-3xl
+                 font-black tracking-tight
+                 ">
+
+       🤖 <b class="text-2xl md:text-3xl
+                 font-black tracking-tight
+                 bg-gradient-to-r
+                 from-cyan-300
+                 via-white
+                 to-purple-400
+                 bg-clip-text text-transparent">Veyro</b>
+
+      </h1>
+
+
+      <p class="text-slate-500 mt-1 text-xs">
+
+        Best of 5 • Choose your weapon
+
+      </p>
+
+
+    </header>
+
+
+    <!-- GAME CARD -->
+
+    <section class="relative
+                    rounded-3xl
+                    border border-white/[0.08]
+                    bg-gradient-to-br
+                    from-slate-900/95
+                    via-[#080d18]/95
+                    to-purple-950/30
+                    shadow-[0_25px_80px_rgba(0,0,0,0.55)]
+                    overflow-hidden
+                    backdrop-blur-2xl
+                    ring-1 ring-white/[0.03]">
+
+
+      <!-- SCORE BAR -->
+
+      <div class="grid grid-cols-3
+                  border-b border-white/[0.06]
+                  bg-white/[0.015]">
+
+
+        <!-- USER -->
+
+        <div class="px-4 py-3 text-center">
+
+          <p class="text-[9px]
+                    uppercase
+                    tracking-[0.25em]
+                    text-cyan-300/50">
+
+           👤 You
+
+          </p>
+
+
+          <p id="userScore"
+             class="text-2xl
+                    font-black
+                    mt-0.5
+                    text-cyan-300
+                    drop-shadow-[0_0_12px_rgba(34,211,238,0.3)]">
+
+            0
+
+          </p>
+
+        </div>
+
+
+        <!-- ROUND -->
+
+        <div class="px-4 py-3
+                    text-center
+                    border-x border-white/[0.06]">
+
+          <p class="text-[9px]
+                    uppercase
+                    tracking-[0.25em]
+                    text-slate-500">
+
+            Round
+
+          </p>
+
+
+          <p id="score"
+             class="text-lg
+                    font-bold
+                    mt-0.5
+                    text-white">
+
+            <span id="round">0</span>
+
+            <span class="text-slate-600">
+              /
+            </span>
+
+            <span class="text-slate-400">
+              5
+            </span>
+
+          </p>
+
+        </div>
+
+
+        <!-- COMPUTER -->
+
+        <div class="px-4 py-3 text-center">
+
+          <p class="text-[9px]
+                    uppercase
+                    tracking-[0.25em]
+                    text-purple-300/50">
+
+          🤖 AI Bot
+
+          </p>
+
+
+          <p id="computerScore"
+             class="text-2xl
+                    font-black
+                    mt-0.5
+                    text-purple-300
+                    drop-shadow-[0_0_12px_rgba(168,85,247,0.3)]">
+
+            0
+
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- GAME CONTENT -->
+
+      <div class="p-4 md:p-5">
+
+
+        <!-- BATTLE -->
+
+        <div class="grid grid-cols-2 gap-3 md:gap-4">
+
+
+          <!-- USER HAND -->
+
+          <div class="relative
+                      rounded-2xl
+                      bg-gradient-to-br
+                      from-cyan-400/[0.07]
+                      via-slate-950/80
+                      to-slate-950
+                      border border-cyan-300/[0.10]
+                      p-3 md:p-4
+                      text-center
+                      overflow-hidden
+                      shadow-[0_0_35px_rgba(34,211,238,0.06)]
+                      backdrop-blur-xl
+                      transition-all duration-300
+                      hover:border-cyan-300/20
+                      hover:shadow-[0_0_45px_rgba(34,211,238,0.10)]">
+
+
+            <div class="absolute
+                        -top-16
+                        -left-16
+                        w-32 h-32
+                        rounded-full
+                        bg-cyan-400/5
+                        blur-3xl
+                        pointer-events-none">
+            </div>
+
+
+            <p class="relative
+                      text-[9px]
+                      uppercase
+                      tracking-[0.3em]
+                      text-cyan-400/80">
+
+             👤 Your Move
+
+            </p>
+
+
+            <div id="userHand"
+                 class="hand h-24 md:h-28
+                        flex items-center
+                        justify-center
+                        text-6xl md:text-7xl
+                        relative">
+
+              ❔
+
+            </div>
+
+
+            <p id="userChoice"
+               class="text-xs text-slate-500">
+
+              Waiting...
+
+            </p>
+
+
+          </div>
+
+
+          <!-- COMPUTER HAND -->
+
+          <div class="relative
+                      rounded-2xl
+                      bg-gradient-to-br
+                      from-purple-400/[0.07]
+                      via-slate-950/80
+                      to-slate-950
+                      border border-purple-300/[0.10]
+                      p-3 md:p-4
+                      text-center
+                      overflow-hidden
+                      shadow-[0_0_35px_rgba(168,85,247,0.06)]
+                      backdrop-blur-xl
+                      transition-all duration-300
+                      hover:border-purple-300/20
+                      hover:shadow-[0_0_45px_rgba(168,85,247,0.10)]">
+
+
+            <div class="absolute
+                        -top-16
+                        -right-16
+                        w-32 h-32
+                        rounded-full
+                        bg-purple-400/5
+                        blur-3xl
+                        pointer-events-none">
+            </div>
+
+
+            <p class="relative
+                      text-[9px]
+                      uppercase
+                      tracking-[0.3em]
+                      text-purple-400/80">
+
+             🤖 AI Bot
+
+            </p>
+
+
+            <div id="computerHand"
+                 class="hand h-24 md:h-28
+                        flex items-center
+                        justify-center
+                        text-6xl md:text-7xl
+                        relative">
+
+              ❔
+
+            </div>
+
+
+            <p id="computerChoice"
+               class="text-xs text-slate-500">
+
+              Waiting...
+
+            </p>
+
+
+          </div>
+
+        </div>
+
+
+        <!-- VS -->
+
+        <div class="flex items-center
+                    gap-3
+                    my-4">
+
+          <div class="h-px
+                      flex-1
+                      bg-gradient-to-r
+                      from-transparent
+                      to-cyan-400/20">
+          </div>
+
+
+          <span class="text-[9px]
+                       font-black
+                       tracking-[0.25em]
+                       text-slate-600">
+
+            VS
+
+          </span>
+
+
+          <div class="h-px
+                      flex-1
+                      bg-gradient-to-l
+                      from-transparent
+                      to-purple-400/20">
+          </div>
+
+        </div>
+
+
+        <!-- INPUT -->
+
+        <div class="max-w-lg mx-auto">
+
+          <label for="userInput"
+                 class="block
+                        text-xs
+                        font-semibold
+                        text-slate-300
+                        mb-2">
+
+           🤔 What will you throw?
+
+          </label>
+
+
+          <div class="flex gap-2">
+
+
+            <input id="userInput"
+                   type="text"
+                   autocomplete="off"
+                   placeholder="rock / paper / scissors"
+                   class="flex-1
+                          min-w-0
+                          h-11
+                          px-4
+                          rounded-xl
+                          bg-gradient-to-br
+                          from-slate-900
+                          to-slate-950
+                          border border-white/10
+                          text-sm
+                          text-white
+                          placeholder:text-slate-600
+                          outline-none
+                          transition-all duration-200
+                          focus:border-cyan-400/50
+                          focus:ring-4
+                          focus:ring-cyan-400/10
+                          focus:shadow-[0_0_25px_rgba(34,211,238,0.08)]">
+
+
+            <button id="playBtn"
+                    data-action="play"
+                    class="h-11
+                           px-6
+                           rounded-xl
+                           bg-gradient-to-r
+                           from-cyan-400
+                           to-sky-400
+                           text-[#031014]
+                           text-sm
+                           font-black
+                           shadow-[0_8px_25px_rgba(34,211,238,0.20)]
+                           hover:from-cyan-300
+                           hover:to-sky-300
+                           hover:shadow-[0_10px_35px_rgba(34,211,238,0.30)]
+                           hover:-translate-y-0.5
+                           active:scale-95
+                           transition-all duration-200">
+
+              Play
+
+            </button>
+
+
+          </div>
+
+
+          <p class="text-[10px]
+                    text-slate-600
+                    mt-2
+                    text-center">
+
+            Type your choice and make your move.
+
+          </p>
+
+        </div>
+
+
+        <!-- RESULT -->
+
+        <div id="resultBox"
+             class="mt-4
+                    rounded-xl
+                    border border-white/[0.07]
+                    bg-gradient-to-r
+                    from-cyan-400/[0.025]
+                    to-purple-400/[0.025]
+                    px-4 py-3
+                    text-center
+                    shadow-inner">
+
+
+          <p class="text-sm
+                    uppercase
+                    tracking-[0.1em]
+                    text-slate-600
+                    mb-1">
+
+            Rock • Paper • Scissors
+
+          </p>
+
+
+          <p id="result"
+             class="text-base
+                    font-black
+                    text-slate-400">
+
+           Best of 5 🎯
+
+          </p>
+
+
+        </div>
+
+
+        <!-- BOTTOM -->
+
+        <div class="flex
+                    items-center
+                    justify-between
+                    mt-3">
+
+
+          <p id="gameStatus"
+             class="text-[10px]
+                    text-slate-600">
+
+            Game in progress
+
+          </p>
+
+
+          <button id="resetBtn"
+                  data-action="reset"
+                  class="text-[10px]
+                         font-medium
+                         text-slate-500
+                         hover:text-cyan-300
+                         hover:-translate-y-0.5
+                         transition-all duration-200">
+
+            ↻ Reset Game
+
+          </button>
+
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- Celebration Overlay -->
+
+  <div id="celebration"
+       class="fixed inset-0 z-50 hidden
+              items-center justify-center
+              bg-[#02040a]/80
+              backdrop-blur-xl
+              px-4">
+
+
+    <!-- Fireworks -->
+
+    <div class="absolute inset-0
+                overflow-hidden
+                pointer-events-none">
+
+      <div class="firework firework-1">✦</div>
+      <div class="firework firework-2">✦</div>
+      <div class="firework firework-3">✦</div>
+      <div class="firework firework-4">✦</div>
+      <div class="firework firework-5">✦</div>
+
+    </div>
+
+
+    <!-- Winning Card -->
+
+    <div class="relative
+                text-center
+                px-8 py-10
+                rounded-3xl
+                border border-cyan-300/20
+                bg-gradient-to-br
+                from-cyan-400/10
+                via-slate-900/80
+                to-purple-500/10
+                backdrop-blur-2xl
+                shadow-[0_0_100px_rgba(34,211,238,0.20)]
+                animate-[winnerPop_0.6s_ease-out]">
+
+
+      <div class="text-7xl mb-4
+                  drop-shadow-[0_0_25px_rgba(250,204,21,0.25)]">
+
+        🏆
+
+      </div>
+
+
+      <h1 class="text-6xl md:text-8xl
+                 font-black
+                 bg-gradient-to-r
+                 from-cyan-300
+                 via-white
+                 to-purple-400
+                 bg-clip-text
+                 text-transparent">
+
+        YOU WON!
+
+      </h1>
+
+
+      <p id="celebrationTitle"
+         class="mt-4
+                text-xl md:text-2xl
+                font-semibold
+                text-white">
+
+        Congratulations! 🎉
+
+      </p>
+
+
+      <p id="winningMessage"
+         class="mt-2
+                text-sm md:text-base
+                text-slate-300">
+
+        What a comeback! You absolutely crushed it.
+
+      </p>
+
+
+      <button id="celebrationClose"
+              class="mt-7
+                     px-6 py-3
+                     rounded-xl
+                     bg-white
+                     text-black
+                     font-bold
+                     shadow-[0_8px_25px_rgba(255,255,255,0.12)]
+                     hover:scale-105
+                     hover:shadow-[0_12px_35px_rgba(255,255,255,0.18)]
+                     active:scale-95
+                     transition-all">
+
+        Continue Playing
+
+      </button>
+
+
+    </div>
+
+  </div>
+
+
+  <script src="index.js"></script>
+
+</body>
+
+</html>
