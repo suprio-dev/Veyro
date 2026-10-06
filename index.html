@@ -13,7 +13,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-
     .hand {
       animation: idle 2s ease-in-out infinite;
     }
@@ -148,13 +147,13 @@
         transform: scale(1);
       }
     }
-
   </style>
 
 </head>
 
 
-<body class="min-h-screen relative overflow-x-hidden
+<body
+  class="min-h-screen relative overflow-x-hidden
              bg-[#03050b] text-white
              flex items-center justify-center
              px-4 py-5
@@ -231,7 +230,7 @@
                   backdrop-blur-xl
                   animate-[idle_2s_ease-in-out_infinite]">
 
-        🎮
+        🕹️
 
       </div>
 
@@ -240,7 +239,7 @@
                  font-black tracking-tight
                  ">
 
-       🤖 <b class="text-2xl md:text-3xl
+        👾 <b class="text-2xl md:text-3xl
                  font-black tracking-tight
                  bg-gradient-to-r
                  from-cyan-300
@@ -292,13 +291,12 @@
                     tracking-[0.25em]
                     text-cyan-300/50">
 
-           👤 You
+            👤 Player
 
           </p>
 
 
-          <p id="userScore"
-             class="text-2xl
+          <p id="userScore" class="text-2xl
                     font-black
                     mt-0.5
                     text-cyan-300
@@ -327,8 +325,7 @@
           </p>
 
 
-          <p id="score"
-             class="text-lg
+          <p id="score" class="text-lg
                     font-bold
                     mt-0.5
                     text-white">
@@ -357,13 +354,12 @@
                     tracking-[0.25em]
                     text-purple-300/50">
 
-          🤖 AI Bot
+            👾 AI Bot
 
           </p>
 
 
-          <p id="computerScore"
-             class="text-2xl
+          <p id="computerScore" class="text-2xl
                     font-black
                     mt-0.5
                     text-purple-300
@@ -424,13 +420,12 @@
                       tracking-[0.3em]
                       text-cyan-400/80">
 
-             👤 Your Move
+              👤 Player
 
             </p>
 
 
-            <div id="userHand"
-                 class="hand h-24 md:h-28
+            <div id="userHand" class="hand h-24 md:h-28
                         flex items-center
                         justify-center
                         text-6xl md:text-7xl
@@ -441,8 +436,7 @@
             </div>
 
 
-            <p id="userChoice"
-               class="text-xs text-slate-500">
+            <p id="userChoice" class="text-xs text-slate-500">
 
               Waiting...
 
@@ -488,13 +482,12 @@
                       tracking-[0.3em]
                       text-purple-400/80">
 
-             🤖 AI Bot
+              👾 AI Bot
 
             </p>
 
 
-            <div id="computerHand"
-                 class="hand h-24 md:h-28
+            <div id="computerHand" class="hand h-24 md:h-28
                         flex items-center
                         justify-center
                         text-6xl md:text-7xl
@@ -505,8 +498,7 @@
             </div>
 
 
-            <p id="computerChoice"
-               class="text-xs text-slate-500">
+            <p id="computerChoice" class="text-xs text-slate-500">
 
               Waiting...
 
@@ -552,82 +544,209 @@
         </div>
 
 
-        <!-- INPUT -->
+        <!-- CHOICE BUTTONS -->
 
-        <div class="max-w-lg mx-auto">
+        <div id="userbtn" class="max-w-lg mx-auto">
 
-          <label for="userInput"
-                 class="block
-                        text-xs
-                        font-semibold
-                        text-slate-300
-                        mb-2">
+          <p class="text-xs
+            font-semibold
+            text-slate-300
+            mb-3
+            text-center">
 
-           🤔 What will you throw?
+            😈 Choose your weapon
 
-          </label>
-
-
-          <div class="flex gap-2">
+          </p>
 
 
-            <input id="userInput"
-                   type="text"
-                   autocomplete="off"
-                   placeholder="rock / paper / scissors"
-                   class="flex-1
-                          min-w-0
-                          h-11
-                          px-4
-                          rounded-xl
-                          bg-gradient-to-br
-                          from-slate-900
-                          to-slate-950
-                          border border-white/10
-                          text-sm
-                          text-white
-                          placeholder:text-slate-600
-                          outline-none
-                          transition-all duration-200
-                          focus:border-cyan-400/50
-                          focus:ring-4
-                          focus:ring-cyan-400/10
-                          focus:shadow-[0_0_25px_rgba(34,211,238,0.08)]">
+          <div class="grid grid-cols-3 gap-2.5">
 
 
-            <button id="playBtn"
-                    data-action="play"
-                    class="h-11
-                           px-6
-                           rounded-xl
-                           bg-gradient-to-r
-                           from-cyan-400
-                           to-sky-400
-                           text-[#031014]
-                           text-sm
-                           font-black
-                           shadow-[0_8px_25px_rgba(34,211,238,0.20)]
-                           hover:from-cyan-300
-                           hover:to-sky-300
-                           hover:shadow-[0_10px_35px_rgba(34,211,238,0.30)]
-                           hover:-translate-y-0.5
-                           active:scale-95
-                           transition-all duration-200">
+            <!-- ROCK -->
 
-              Play
+            <button id="rockBtn" data-choice="rock" class="choice-btn group
+             relative
+             h-24 md:h-28
+             rounded-2xl
+             overflow-hidden
+             border border-white/[0.08]
+             bg-gradient-to-br
+             from-slate-900
+             to-slate-950
+             hover:border-cyan-300/30
+             hover:bg-cyan-400/[0.06]
+             hover:shadow-[0_0_30px_rgba(34,211,238,0.12)]
+             active:scale-90
+             transition-all duration-200">
+
+              <!-- Glow -->
+              <div class="absolute
+               -top-8
+               -left-8
+               w-20 h-20
+               rounded-full
+               bg-cyan-400/10
+               blur-2xl
+               opacity-0
+               group-hover:opacity-100
+               transition-opacity duration-300">
+              </div>
+
+
+              <div class="relative z-10
+                  flex flex-col
+                  items-center
+                  justify-center
+                  gap-1.5">
+
+                <b class="text-4xl
+                 transition-transform duration-200
+                 group-hover:-translate-y-1
+                 group-hover:scale-110">
+                  ✊
+                </b>
+
+                <span class="text-[10px]
+                 uppercase
+                 tracking-[0.2em]
+                 font-bold
+                 text-slate-400
+                 group-hover:text-cyan-300
+                 transition-colors">
+                  Rock
+                </span>
+
+              </div>
 
             </button>
 
+
+            <!-- PAPER -->
+
+            <button id="paperBtn" data-choice="paper" class="choice-btn group
+             relative
+             h-24 md:h-28
+             rounded-2xl
+             overflow-hidden
+             border border-white/[0.08]
+             bg-gradient-to-br
+             from-slate-900
+             to-slate-950
+             hover:border-purple-300/30
+             hover:bg-purple-400/[0.06]
+             hover:shadow-[0_0_30px_rgba(168,85,247,0.12)]
+             active:scale-90
+             transition-all duration-200">
+
+              <!-- Glow -->
+              <div class="absolute
+               -top-8
+               -right-8
+               w-20 h-20
+               rounded-full
+               bg-purple-400/10
+               blur-2xl
+               opacity-0
+               group-hover:opacity-100
+               transition-opacity duration-300">
+              </div>
+
+
+              <div class="relative z-10
+                  flex flex-col
+                  items-center
+                  justify-center
+                  gap-1.5">
+
+                <b class="text-4xl
+                 transition-transform duration-200
+                 group-hover:-translate-y-1
+                 group-hover:scale-110">
+                  ✋
+                </b>
+
+                <span class="text-[10px]
+                 uppercase
+                 tracking-[0.2em]
+                 font-bold
+                 text-slate-400
+                 group-hover:text-purple-300
+                 transition-colors">
+                  Paper
+                </span>
+
+              </div>
+
+            </button>
+
+
+            <!-- SCISSORS -->
+
+            <button id="scissorsBtn" data-choice="scissors" class="choice-btn group
+             relative
+             h-24 md:h-28
+             rounded-2xl
+             overflow-hidden
+             border border-white/[0.08]
+             bg-gradient-to-br
+             from-slate-900
+             to-slate-950
+             hover:border-pink-300/30
+             hover:bg-pink-400/[0.06]
+             hover:shadow-[0_0_30px_rgba(236,72,153,0.12)]
+             active:scale-90
+             transition-all duration-200">
+
+              <!-- Glow -->
+              <div class="absolute
+               -bottom-8
+               right-0
+               w-20 h-20
+               rounded-full
+               bg-pink-400/10
+               blur-2xl
+               opacity-0
+               group-hover:opacity-100
+               transition-opacity duration-300">
+              </div>
+
+
+              <div class="relative z-10
+                  flex flex-col
+                  items-center
+                  justify-center
+                  gap-1.5">
+
+                <b class="text-4xl
+                 transition-transform duration-200
+                 group-hover:-translate-y-1
+                 group-hover:scale-110">
+                  ✌️
+                </b>
+
+                <span class="text-[10px]
+                 uppercase
+                 tracking-[0.2em]
+                 font-bold
+                 text-slate-400
+                 group-hover:text-pink-300
+                 transition-colors">
+                  Scissors
+                </span>
+
+              </div>
+
+            </button>
 
           </div>
 
 
           <p class="text-[10px]
-                    text-slate-600
-                    mt-2
-                    text-center">
+            text-slate-600
+            mt-3
+            text-center">
 
-            Type your choice and make your move.
+            Choose your move and let the battle begin ⚡
 
           </p>
 
@@ -636,8 +755,7 @@
 
         <!-- RESULT -->
 
-        <div id="resultBox"
-             class="mt-4
+        <div id="resultBox" class="mt-4
                     rounded-xl
                     border border-white/[0.07]
                     bg-gradient-to-r
@@ -649,22 +767,21 @@
 
 
           <p class="text-sm
-                    uppercase
+                    
                     tracking-[0.1em]
                     text-slate-600
                     mb-1">
 
-            Rock • Paper • Scissors
+            Can You Beat the Bot?
 
           </p>
 
 
-          <p id="result"
-             class="text-base
+          <p id="result" class="text-base
                     font-black
                     text-slate-400">
 
-           Best of 5 🎯
+            Let’s See What You’ve Got 😏
 
           </p>
 
@@ -680,8 +797,7 @@
                     mt-3">
 
 
-          <p id="gameStatus"
-             class="text-[10px]
+          <p id="gameStatus" class="text-[10px]
                     text-slate-600">
 
             Game in progress
@@ -689,9 +805,7 @@
           </p>
 
 
-          <button id="resetBtn"
-                  data-action="reset"
-                  class="text-[10px]
+          <button id="resetBtn" data-action="reset" class="text-[10px]
                          font-medium
                          text-slate-500
                          hover:text-cyan-300
@@ -716,8 +830,7 @@
 
   <!-- Celebration Overlay -->
 
-  <div id="celebration"
-       class="fixed inset-0 z-50 hidden
+  <div id="celebration" class="fixed inset-0 z-50 hidden
               items-center justify-center
               bg-[#02040a]/80
               backdrop-blur-xl
@@ -777,8 +890,7 @@
       </h1>
 
 
-      <p id="celebrationTitle"
-         class="mt-4
+      <p id="celebrationTitle" class="mt-4
                 text-xl md:text-2xl
                 font-semibold
                 text-white">
@@ -788,8 +900,7 @@
       </p>
 
 
-      <p id="winningMessage"
-         class="mt-2
+      <p id="winningMessage" class="mt-2
                 text-sm md:text-base
                 text-slate-300">
 
@@ -798,8 +909,7 @@
       </p>
 
 
-      <button id="celebrationClose"
-              class="mt-7
+      <button id="celebrationClose" class="mt-7
                      px-6 py-3
                      rounded-xl
                      bg-white

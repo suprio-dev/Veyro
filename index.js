@@ -1,5 +1,7 @@
-let userInput = document.querySelector("#userInput");
-let playBtn = document.querySelector("#playBtn");
+let rockBtn = document.querySelector("#rockBtn");
+let paperBtn = document.querySelector("#paperBtn");
+let scissorsBtn = document.querySelector("#scissorsBtn");
+
 let userHand = document.querySelector("#userHand");
 let computerHand = document.querySelector("#computerHand");
 let userChoice = document.querySelector("#userChoice");
@@ -12,17 +14,18 @@ let celebrationClose = document.querySelector("#celebrationClose");
 let winningMessage = document.querySelector("#winningMessage");
 let resetBtn = document.querySelector("#resetBtn");
 let score = document.querySelector("#score");
+let userbtn = document.querySelector("#userbtn");
+let resultBox = document.querySelector("#resultBox");
 
 
 let userpts = 0, computerpts = 0, roundCount = 0;
 
 let arr = ['rock', 'paper', 'scissors'];
 
-playBtn.addEventListener('click', (e) => {
+userbtn.addEventListener('click', (e) => {
   e.preventDefault();
+  let value = e.target.closest("button").querySelector("span").textContent.toLowerCase().trim();
 
-  let value = userInput.value.toLowerCase().trim();
-  userInput.value = "";
 
   userChoice.className = "hidden";
 
@@ -52,6 +55,17 @@ playBtn.addEventListener('click', (e) => {
 
       computerpts++;
       computerScore.textContent = `${computerpts}`;
+      resultBox.className =
+        "mt-4 rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-center shadow-lg shadow-red-500/10";
+
+      resultBox.innerHTML = `
+        <p class="text-red-300 font-bold text-lg">
+            💀 AI STRIKES!
+        </p>
+        <p class="text-sm text-gray-400 mt-1">
+            The bot takes the point!
+        </p>
+    `;
 
       roundCount++;
       round.textContent = `${roundCount}`;
@@ -63,8 +77,15 @@ playBtn.addEventListener('click', (e) => {
             "YOU WON! 🏆",
             "You scored more points than the computer!"
           );
+
+
+
+
         } else {
           showLossMessage();
+
+
+
         }
 
         return;
@@ -75,7 +96,17 @@ playBtn.addEventListener('click', (e) => {
 
       userpts++;
       userScore.textContent = `${userpts}`;
+      resultBox.className =
+        "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
 
+      resultBox.innerHTML = `
+        <p class="text-cyan-300 font-bold text-lg">
+            ⚡ POINT SECURED!
+        </p>
+        <p class="text-sm text-gray-400 mt-1">
+            You outplayed the AI!
+        </p>
+    `;
       roundCount++;
       round.textContent = `${roundCount}`;
 
@@ -86,8 +117,15 @@ playBtn.addEventListener('click', (e) => {
             "YOU WON! 🏆",
             "You scored more points than the computer!"
           );
+
+
+
         } else {
           showLossMessage();
+
+
+
+
         }
 
         return;
@@ -122,6 +160,17 @@ playBtn.addEventListener('click', (e) => {
 
       computerpts++;
       computerScore.textContent = `${computerpts}`;
+      resultBox.className =
+        "mt-4 rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-center shadow-lg shadow-red-500/10";
+
+      resultBox.innerHTML = `
+        <p class="text-red-300 font-bold text-lg">
+            💀 AI STRIKES!
+        </p>
+        <p class="text-sm text-gray-400 mt-1">
+            The bot takes the point!
+        </p>
+    `;
 
       roundCount++;
       round.textContent = `${roundCount}`;
@@ -133,8 +182,17 @@ playBtn.addEventListener('click', (e) => {
             "YOU WON! 🏆",
             "You scored more points than the computer!"
           );
+
+
+
+
+
         } else {
           showLossMessage();
+
+
+
+
         }
 
         return;
@@ -146,7 +204,17 @@ playBtn.addEventListener('click', (e) => {
 
       userpts++;
       userScore.textContent = `${userpts}`;
+      resultBox.className =
+        "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
 
+      resultBox.innerHTML = `
+        <p class="text-cyan-300 font-bold text-lg">
+            ⚡ POINT SECURED!
+        </p>
+        <p class="text-sm text-gray-400 mt-1">
+            You outplayed the AI!
+        </p>
+    `;
       roundCount++;
       round.textContent = `${roundCount}`;
 
@@ -157,8 +225,14 @@ playBtn.addEventListener('click', (e) => {
             "YOU WON! 🏆",
             "You scored more points than the computer!"
           );
+
+
+
         } else {
           showLossMessage();
+
+
+
         }
 
         return;
@@ -193,7 +267,17 @@ playBtn.addEventListener('click', (e) => {
 
       userpts++;
       userScore.textContent = `${userpts}`;
+      resultBox.className =
+        "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
 
+      resultBox.innerHTML = `
+        <p class="text-cyan-300 font-bold text-lg">
+            ⚡ POINT SECURED!
+        </p>
+        <p class="text-sm text-gray-400 mt-1">
+            You outplayed the AI!
+        </p>
+    `;
       roundCount++;
       round.textContent = `${roundCount}`;
 
@@ -204,8 +288,12 @@ playBtn.addEventListener('click', (e) => {
             "YOU WON! 🏆",
             "You scored more points than the computer!"
           );
+
+
+
         } else {
           showLossMessage();
+
         }
 
         return;
@@ -216,6 +304,17 @@ playBtn.addEventListener('click', (e) => {
 
       computerpts++;
       computerScore.textContent = `${computerpts}`;
+      resultBox.className =
+        "mt-4 rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-center shadow-lg shadow-red-500/10";
+
+      resultBox.innerHTML = `
+        <p class="text-red-300 font-bold text-lg">
+            💀 AI STRIKES!
+        </p>
+        <p class="text-sm text-gray-400 mt-1">
+            The bot takes the point!
+        </p>
+    `;
 
       roundCount++;
       round.textContent = `${roundCount}`;
@@ -227,8 +326,13 @@ playBtn.addEventListener('click', (e) => {
             "YOU WON! 🏆",
             "You scored more points than the computer!"
           );
+
+
+
         } else {
           showLossMessage();
+
+
         }
 
         return;
@@ -236,7 +340,10 @@ playBtn.addEventListener('click', (e) => {
     }
   }
 
-})
+}
+
+
+)
 
 
 function computerMove() {
@@ -381,56 +488,52 @@ celebrationClose.addEventListener("click", () => {
 
 });
 
-resetBtn.addEventListener('click', () => {
+resetBtn.addEventListener("click", () => {
+
+  userpts = 0;
+  computerpts = 0;
+  roundCount = 0;
+
   userScore.textContent = "0";
   computerScore.textContent = "0";
-  score.innerHTML = `<p class="text-lg
-                    font-bold
-                    mt-0.5">
+  round.textContent = "0";
 
-            <span id="round">0</span>
+  userHand.innerHTML = "❔";
+  computerHand.innerHTML = "❔";
 
-            <span class="text-gray-600">
-              /
-            </span>
+  userChoice.textContent = "Waiting...";
+  computerChoice.textContent = "Waiting...";
 
-            <span>5</span>
+  userChoice.className = "text-xs text-gray-500";
+  computerChoice.className = "text-xs text-gray-500";
 
-          </p>`;
+  celebration.classList.add("hidden");
+  celebration.classList.remove("flex");
+  resultBox.className = `
+  mt-4
+  rounded-xl
+  border border-white/[0.07]
+  bg-gradient-to-r
+  from-cyan-400/[0.025]
+  to-purple-400/[0.025]
+  px-4 py-3
+  text-center
+  shadow-inner
+`;
 
-  computerHand.innerHTML = `<div class="flex flex-col">
-  <div id="computerHand" class="hand h-24 md:h-28
-                        flex items-center
-                        justify-center
-                        text-6xl md:text-7xl
-                        relative">
+  resultBox.innerHTML = `
+  <p class="text-sm
+            tracking-[0.1em]
+            text-slate-600
+            mb-1">
+    Can You Beat the Bot?
+  </p>
 
-              ❔
-
-            </div>
-
-
-            <p id="computerChoice" class="text-xs
-                      text-gray-500">
-              Waiting...
-            </p></div>`;
-
-  userHand.innerHTML = `<div class="flex flex-col">
-  <div id="userHand" class="hand h-24 md:h-28
-                        flex items-center
-                        justify-center
-                        text-6xl md:text-7xl
-                        relative">
-
-              ❔
-
-            </div>
-
-
-            <p id="userChoice" class="text-xs
-                      text-gray-500">
-              Waiting...
-            </p></div>`;
-
-  userInput.value = "";
-})
+  <p id="result"
+     class="text-base
+            font-black
+            text-slate-400">
+    Let’s See What You’ve Got 😏
+  </p>
+`;
+});
