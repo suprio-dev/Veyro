@@ -92,7 +92,7 @@ userbtn.addEventListener('click', (e) => {
       }
     }
 
-    if (computerResponse === "scissors") {
+    else if (computerResponse === "scissors") {
 
       userpts++;
       userScore.textContent = `${userpts}`;
@@ -131,6 +131,20 @@ userbtn.addEventListener('click', (e) => {
         return;
       }
     }
+
+    else {
+      resultBox.className =
+        "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
+
+      resultBox.innerHTML = `
+        <p class="text-cyan-300 font-bold text-lg">
+            🤝 It's a Tie!
+        </p>
+        <p class="text-sm text-gray-400 mt-1">
+            Neither side takes the round.
+        </p>`
+    }
+
   }
 
 
@@ -200,7 +214,7 @@ userbtn.addEventListener('click', (e) => {
     }
 
 
-    if (computerResponse === "rock") {
+    else if (computerResponse === "rock") {
 
       userpts++;
       userScore.textContent = `${userpts}`;
@@ -238,6 +252,20 @@ userbtn.addEventListener('click', (e) => {
         return;
       }
     }
+
+    else {
+      resultBox.className =
+        "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
+
+      resultBox.innerHTML = `
+        <p class="text-cyan-300 font-bold text-lg">
+            🤝 It's a Tie!
+        </p>
+        <p class="text-sm text-gray-400 mt-1">
+            Neither side takes the round.
+        </p>`
+    }
+
   }
 
 
@@ -300,7 +328,7 @@ userbtn.addEventListener('click', (e) => {
       }
     }
 
-    if (computerResponse === "rock") {
+    else if (computerResponse === "rock") {
 
       computerpts++;
       computerScore.textContent = `${computerpts}`;
@@ -338,6 +366,20 @@ userbtn.addEventListener('click', (e) => {
         return;
       }
     }
+
+    else {
+      resultBox.className =
+        "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
+
+      resultBox.innerHTML = `
+        <p class="text-cyan-300 font-bold text-lg">
+            🤝 It's a Tie!
+        </p>
+        <p class="text-sm text-gray-400 mt-1">
+            Neither side takes the round.
+        </p>`
+    }
+
   }
 
 }
