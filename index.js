@@ -75,14 +75,15 @@ userbtn.addEventListener('click', (e) => {
         if (userpts > computerpts) {
           showCelebration(
             "YOU WON! 🏆",
-            "You scored more points than the computer!"
+            "You scored more points than the computer!",
+            resetGame
           );
 
 
 
 
         } else {
-          showLossMessage();
+          showLossMessage(resetGame);
 
 
 
@@ -115,13 +116,14 @@ userbtn.addEventListener('click', (e) => {
         if (userpts > computerpts) {
           showCelebration(
             "YOU WON! 🏆",
-            "You scored more points than the computer!"
+            "You scored more points than the computer!",
+            resetGame
           );
 
 
 
         } else {
-          showLossMessage();
+          showLossMessage(resetGame);
 
 
 
@@ -194,7 +196,8 @@ userbtn.addEventListener('click', (e) => {
         if (userpts > computerpts) {
           showCelebration(
             "YOU WON! 🏆",
-            "You scored more points than the computer!"
+            "You scored more points than the computer!",
+            resetGame
           );
 
 
@@ -202,7 +205,7 @@ userbtn.addEventListener('click', (e) => {
 
 
         } else {
-          showLossMessage();
+          showLossMessage(resetGame);
 
 
 
@@ -237,13 +240,14 @@ userbtn.addEventListener('click', (e) => {
         if (userpts > computerpts) {
           showCelebration(
             "YOU WON! 🏆",
-            "You scored more points than the computer!"
+            "You scored more points than the computer!",
+            resetGame
           );
 
 
 
         } else {
-          showLossMessage();
+          showLossMessage(resetGame);
 
 
 
@@ -314,13 +318,14 @@ userbtn.addEventListener('click', (e) => {
         if (userpts > computerpts) {
           showCelebration(
             "YOU WON! 🏆",
-            "You scored more points than the computer!"
+            "You scored more points than the computer!",
+            resetGame
           );
 
 
 
         } else {
-          showLossMessage();
+          showLossMessage(resetGame);
 
         }
 
@@ -352,13 +357,14 @@ userbtn.addEventListener('click', (e) => {
         if (userpts > computerpts) {
           showCelebration(
             "YOU WON! 🏆",
-            "You scored more points than the computer!"
+            "You scored more points than the computer!",
+            resetGame
           );
 
 
 
         } else {
-          showLossMessage();
+          showLossMessage(resetGame);
 
 
         }
@@ -488,7 +494,7 @@ function computerMove() {
 }
 
 
-function showCelebration(title, message) {
+function showCelebration(title, message,resetGame) {
 
   celebration.classList.remove("hidden");
   celebration.classList.add("flex");
@@ -502,10 +508,15 @@ function showCelebration(title, message) {
   if (titleText) {
     titleText.textContent = title;
   }
+
+celebrationClose.addEventListener('click',()=>{
+      resetGame();
+    })
+
 }
 
 
-function showLossMessage() {
+function showLossMessage(resetGame) {
 
   celebration.classList.remove("hidden");
   celebration.classList.add("flex");
@@ -520,6 +531,11 @@ function showLossMessage() {
 
   winningMessage.textContent =
     "The computer got you this time. Run it back and take the rematch!";
+
+    celebrationClose.addEventListener('click',()=>{
+      resetGame();
+    })
+
 }
 
 
@@ -530,8 +546,8 @@ celebrationClose.addEventListener("click", () => {
 
 });
 
-resetBtn.addEventListener("click", () => {
 
+function resetGame(){
   userpts = 0;
   computerpts = 0;
   roundCount = 0;
@@ -578,4 +594,9 @@ resetBtn.addEventListener("click", () => {
     Let’s See What You’ve Got 😏
   </p>
 `;
-});
+
+}
+
+resetBtn.addEventListener("click", () => {
+ resetGame();
+  });
