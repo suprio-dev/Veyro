@@ -53,12 +53,13 @@ userbtn.addEventListener('click', (e) => {
 
     if (computerResponse === "paper") {
 
-      computerpts++;
-      computerScore.textContent = `${computerpts}`;
-      resultBox.className =
-        "mt-4 rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-center shadow-lg shadow-red-500/10";
+      setTimeout(() => {
+        computerpts++;
+        computerScore.textContent = `${computerpts}`;
+        resultBox.className =
+          "mt-4 rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-center shadow-lg shadow-red-500/10";
 
-      resultBox.innerHTML = `
+        resultBox.innerHTML = `
         <p class="text-red-300 font-bold text-lg">
             💀 AI STRIKES!
         </p>
@@ -67,8 +68,9 @@ userbtn.addEventListener('click', (e) => {
         </p>
     `;
 
-      roundCount++;
-      round.textContent = `${roundCount}`;
+        roundCount++;
+        round.textContent = `${roundCount}`;
+      }, 200);
 
       if (roundCount === 5) {
 
@@ -95,12 +97,13 @@ userbtn.addEventListener('click', (e) => {
 
     else if (computerResponse === "scissors") {
 
-      userpts++;
-      userScore.textContent = `${userpts}`;
-      resultBox.className =
-        "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
+      setTimeout(() => {
+        userpts++;
+        userScore.textContent = `${userpts}`;
+        resultBox.className =
+          "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
 
-      resultBox.innerHTML = `
+        resultBox.innerHTML = `
         <p class="text-cyan-300 font-bold text-lg">
             ⚡ POINT SECURED!
         </p>
@@ -108,8 +111,9 @@ userbtn.addEventListener('click', (e) => {
             You outplayed the AI!
         </p>
     `;
-      roundCount++;
-      round.textContent = `${roundCount}`;
+        roundCount++;
+        round.textContent = `${roundCount}`;
+      }, 200);
 
       if (roundCount === 5) {
 
@@ -135,16 +139,18 @@ userbtn.addEventListener('click', (e) => {
     }
 
     else {
-      resultBox.className =
-        "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
+      setTimeout(() => {
+        resultBox.className =
+          "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
 
-      resultBox.innerHTML = `
+        resultBox.innerHTML = `
         <p class="text-cyan-300 font-bold text-lg">
             🤝 It's a Tie!
         </p>
         <p class="text-sm text-gray-400 mt-1">
             Neither side takes the round.
         </p>`
+      }, 200);
     }
 
   }
@@ -174,12 +180,13 @@ userbtn.addEventListener('click', (e) => {
 
     if (computerResponse === "scissors") {
 
-      computerpts++;
-      computerScore.textContent = `${computerpts}`;
-      resultBox.className =
-        "mt-4 rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-center shadow-lg shadow-red-500/10";
+      setTimeout(() => {
+        computerpts++;
+        computerScore.textContent = `${computerpts}`;
+        resultBox.className =
+          "mt-4 rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-center shadow-lg shadow-red-500/10";
 
-      resultBox.innerHTML = `
+        resultBox.innerHTML = `
         <p class="text-red-300 font-bold text-lg">
             💀 AI STRIKES!
         </p>
@@ -188,8 +195,9 @@ userbtn.addEventListener('click', (e) => {
         </p>
     `;
 
-      roundCount++;
-      round.textContent = `${roundCount}`;
+        roundCount++;
+        round.textContent = `${roundCount}`;
+      }, 200);
 
       if (roundCount === 5) {
 
@@ -219,12 +227,13 @@ userbtn.addEventListener('click', (e) => {
 
     else if (computerResponse === "rock") {
 
-      userpts++;
-      userScore.textContent = `${userpts}`;
-      resultBox.className =
-        "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
+      setTimeout(() => {
+        userpts++;
+        userScore.textContent = `${userpts}`;
+        resultBox.className =
+          "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
 
-      resultBox.innerHTML = `
+        resultBox.innerHTML = `
         <p class="text-cyan-300 font-bold text-lg">
             ⚡ POINT SECURED!
         </p>
@@ -232,8 +241,9 @@ userbtn.addEventListener('click', (e) => {
             You outplayed the AI!
         </p>
     `;
-      roundCount++;
-      round.textContent = `${roundCount}`;
+        roundCount++;
+        round.textContent = `${roundCount}`;
+      }, 200);
 
       if (roundCount === 5) {
 
@@ -258,16 +268,18 @@ userbtn.addEventListener('click', (e) => {
     }
 
     else {
-      resultBox.className =
-        "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
+      setTimeout(() => {
+        resultBox.className =
+          "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
 
-      resultBox.innerHTML = `
+        resultBox.innerHTML = `
         <p class="text-cyan-300 font-bold text-lg">
             🤝 It's a Tie!
         </p>
         <p class="text-sm text-gray-400 mt-1">
             Neither side takes the round.
         </p>`
+      }, 200);
     }
 
   }
@@ -297,12 +309,13 @@ userbtn.addEventListener('click', (e) => {
 
     if (computerResponse === "paper") {
 
-      userpts++;
-      userScore.textContent = `${userpts}`;
-      resultBox.className =
-        "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
+      setTimeout(() => {
+        userpts++;
+        userScore.textContent = `${userpts}`;
+        resultBox.className =
+          "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
 
-      resultBox.innerHTML = `
+        resultBox.innerHTML = `
         <p class="text-cyan-300 font-bold text-lg">
             ⚡ POINT SECURED!
         </p>
@@ -310,8 +323,9 @@ userbtn.addEventListener('click', (e) => {
             You outplayed the AI!
         </p>
     `;
-      roundCount++;
-      round.textContent = `${roundCount}`;
+        roundCount++;
+        round.textContent = `${roundCount}`;
+      }, 200);
 
       if (roundCount === 5) {
 
@@ -334,13 +348,14 @@ userbtn.addEventListener('click', (e) => {
     }
 
     else if (computerResponse === "rock") {
+      setTimeout(() => {
 
-      computerpts++;
-      computerScore.textContent = `${computerpts}`;
-      resultBox.className =
-        "mt-4 rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-center shadow-lg shadow-red-500/10";
+        computerpts++;
+        computerScore.textContent = `${computerpts}`;
+        resultBox.className =
+          "mt-4 rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-center shadow-lg shadow-red-500/10";
 
-      resultBox.innerHTML = `
+        resultBox.innerHTML = `
         <p class="text-red-300 font-bold text-lg">
             💀 AI STRIKES!
         </p>
@@ -349,9 +364,10 @@ userbtn.addEventListener('click', (e) => {
         </p>
     `;
 
-      roundCount++;
-      round.textContent = `${roundCount}`;
+        roundCount++;
+        round.textContent = `${roundCount}`;
 
+      }, 200);
       if (roundCount === 5) {
 
         if (userpts > computerpts) {
@@ -374,16 +390,18 @@ userbtn.addEventListener('click', (e) => {
     }
 
     else {
-      resultBox.className =
-        "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
+      setTimeout(() => {
+        resultBox.className =
+          "mt-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-center shadow-lg shadow-cyan-500/10";
 
-      resultBox.innerHTML = `
+        resultBox.innerHTML = `
         <p class="text-cyan-300 font-bold text-lg">
             🤝 It's a Tie!
         </p>
         <p class="text-sm text-gray-400 mt-1">
             Neither side takes the round.
         </p>`
+      }, 200);
     }
 
   }
@@ -402,9 +420,39 @@ function computerMove() {
 
     function rock() {
 
+
+
       computerChoice.className = "hidden";
 
       computerHand.innerHTML = `
+  <div class="flex flex-col items-center gap-1.5
+              animate-pulse">
+
+    <span class="text-3xl md:text-4xl
+                 drop-shadow-[0_0_12px_rgba(52,211,153,0.7)]">
+      🧠
+    </span>
+
+    <div class="flex items-center gap-1">
+      <span class="text-[9px] font-bold tracking-widest
+                   text-emerald-300">
+        THINKING
+      </span>
+
+      <span class="flex gap-0.5">
+        <span class="animate-bounce text-emerald-300">.</span>
+        <span class="animate-bounce text-emerald-300 [animation-delay:150ms]">.</span>
+        <span class="animate-bounce text-emerald-300 [animation-delay:300ms]">.</span>
+      </span>
+    </div>
+
+  </div>
+`;
+
+      setTimeout(() => {
+        computerChoice.className = "hidden";
+
+        computerHand.innerHTML = `
   <div class="w-20 h-20 md:w-24 md:h-24
               rounded-2xl
               bg-gradient-to-br from-cyan-400/20 to-cyan-400/5
@@ -422,6 +470,9 @@ function computerMove() {
   </div>
 `;
 
+
+      }, 200);
+
       return "rock";
 
     }
@@ -434,9 +485,36 @@ function computerMove() {
 
     function paper() {
 
-      computerChoice.className = "hidden";
 
       computerHand.innerHTML = `
+  <div class="flex flex-col items-center gap-1.5
+              animate-pulse">
+
+    <span class="text-3xl md:text-4xl
+                 drop-shadow-[0_0_12px_rgba(52,211,153,0.7)]">
+      🧠
+    </span>
+
+    <div class="flex items-center gap-1">
+      <span class="text-[9px] font-bold tracking-widest
+                   text-emerald-300">
+        THINKING
+      </span>
+
+      <span class="flex gap-0.5">
+        <span class="animate-bounce text-emerald-300">.</span>
+        <span class="animate-bounce text-emerald-300 [animation-delay:150ms]">.</span>
+        <span class="animate-bounce text-emerald-300 [animation-delay:300ms]">.</span>
+      </span>
+    </div>
+
+  </div>
+`;
+
+      setTimeout(() => {
+        computerChoice.className = "hidden";
+
+        computerHand.innerHTML = `
   <div class="w-20 h-20 md:w-24 md:h-24
               rounded-2xl
               bg-gradient-to-br from-emerald-400/20 to-emerald-400/5
@@ -454,7 +532,10 @@ function computerMove() {
   </div>
 `;
 
+
+      }, 200);
       return "paper";
+
     }
 
     return paper();
@@ -465,9 +546,36 @@ function computerMove() {
 
     function scissors() {
 
-      computerChoice.className = "hidden";
-
       computerHand.innerHTML = `
+  <div class="flex flex-col items-center gap-1.5
+              animate-pulse">
+
+    <span class="text-3xl md:text-4xl
+                 drop-shadow-[0_0_12px_rgba(52,211,153,0.7)]">
+      🧠
+    </span>
+
+    <div class="flex items-center gap-1">
+      <span class="text-[9px] font-bold tracking-widest
+                   text-emerald-300">
+        THINKING
+      </span>
+
+      <span class="flex gap-0.5">
+        <span class="animate-bounce text-emerald-300">.</span>
+        <span class="animate-bounce text-emerald-300 [animation-delay:150ms]">.</span>
+        <span class="animate-bounce text-emerald-300 [animation-delay:300ms]">.</span>
+      </span>
+    </div>
+
+  </div>
+`;
+
+
+      setTimeout(() => {
+        computerChoice.className = "hidden";
+
+        computerHand.innerHTML = `
   <div class="w-20 h-20 md:w-24 md:h-24
               rounded-2xl
               bg-gradient-to-br from-purple-400/20 to-purple-400/5
@@ -485,7 +593,10 @@ function computerMove() {
   </div>
 `;
 
+
+      }, 200);
       return "scissors";
+
     }
 
     return scissors();
@@ -494,7 +605,7 @@ function computerMove() {
 }
 
 
-function showCelebration(title, message,resetGame) {
+function showCelebration(title, message, resetGame) {
 
   celebration.classList.remove("hidden");
   celebration.classList.add("flex");
@@ -509,9 +620,9 @@ function showCelebration(title, message,resetGame) {
     titleText.textContent = title;
   }
 
-celebrationClose.addEventListener('click',()=>{
-      resetGame();
-    })
+  celebrationClose.addEventListener('click', () => {
+    resetGame();
+  })
 
 }
 
@@ -532,9 +643,9 @@ function showLossMessage(resetGame) {
   winningMessage.textContent =
     "The computer got you this time. Run it back and take the rematch!";
 
-    celebrationClose.addEventListener('click',()=>{
-      resetGame();
-    })
+  celebrationClose.addEventListener('click', () => {
+    resetGame();
+  })
 
 }
 
@@ -547,7 +658,7 @@ celebrationClose.addEventListener("click", () => {
 });
 
 
-function resetGame(){
+function resetGame() {
   userpts = 0;
   computerpts = 0;
   roundCount = 0;
@@ -598,5 +709,5 @@ function resetGame(){
 }
 
 resetBtn.addEventListener("click", () => {
- resetGame();
-  });
+  resetGame();
+});
