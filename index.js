@@ -16,7 +16,16 @@ let resetBtn = document.querySelector("#resetBtn");
 let score = document.querySelector("#score");
 let userbtn = document.querySelector("#userbtn");
 let resultBox = document.querySelector("#resultBox");
+let totalWins = document.querySelector("#totalWins");
+let totalLosses = document.querySelector("#totalLosses");
 
+let wins = 0, losses = 0;
+
+totalWins.textContent = Number(localStorage.getItem("wins")) || `${wins}`;
+totalLosses.textContent = Number(localStorage.getItem("losses")) || `${losses}`;
+
+wins=Number(localStorage.getItem("wins"));
+losses=Number(localStorage.getItem("losses"));
 
 let userpts = 0, computerpts = 0, roundCount = 0;
 
@@ -81,12 +90,18 @@ userbtn.addEventListener('click', (e) => {
             resetGame
           );
 
+          wins++;
+          totalWins.textContent = `${wins}`;
+          localStorage.setItem("wins", wins);
 
 
 
         } else {
           showLossMessage(resetGame);
 
+          losses++;
+          totalLosses.textContent = `${losses}`;
+          localStorage.setItem("losses", losses);
 
 
         }
@@ -124,12 +139,16 @@ userbtn.addEventListener('click', (e) => {
             resetGame
           );
 
-
+          wins++;
+          totalWins.textContent = `${wins}`;
+          localStorage.setItem("wins", wins);
 
         } else {
           showLossMessage(resetGame);
 
-
+          losses++;
+          totalLosses.textContent = `${losses}`;
+          localStorage.setItem("losses", losses);
 
 
         }
@@ -208,14 +227,18 @@ userbtn.addEventListener('click', (e) => {
             resetGame
           );
 
-
+          wins++;
+          totalWins.textContent = `${wins}`;
+          localStorage.setItem("wins", wins);
 
 
 
         } else {
           showLossMessage(resetGame);
 
-
+          losses++;
+          totalLosses.textContent = `${losses}`;
+          localStorage.setItem("losses", losses);
 
 
         }
@@ -254,12 +277,17 @@ userbtn.addEventListener('click', (e) => {
             resetGame
           );
 
-
+          wins++;
+          totalWins.textContent = `${wins}`;
+          localStorage.setItem("wins", wins);
 
         } else {
           showLossMessage(resetGame);
 
 
+          losses++;
+          totalLosses.textContent = `${losses}`;
+          localStorage.setItem("losses", losses);
 
         }
 
@@ -337,10 +365,15 @@ userbtn.addEventListener('click', (e) => {
           );
 
 
+          wins++;
+          totalWins.textContent = `${wins}`;
+          localStorage.setItem("wins", wins);
 
         } else {
           showLossMessage(resetGame);
-
+          losses++;
+          totalLosses.textContent = `${losses}`;
+          localStorage.setItem("losses", losses);
         }
 
         return;
@@ -377,11 +410,16 @@ userbtn.addEventListener('click', (e) => {
             resetGame
           );
 
+          wins++;
+          totalWins.textContent = `${wins}`;
+          localStorage.setItem("wins", wins);
 
 
         } else {
           showLossMessage(resetGame);
-
+          losses++;
+          totalLosses.textContent = `${losses}`;
+          localStorage.setItem("losses", losses);
 
         }
 

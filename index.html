@@ -372,7 +372,100 @@
         </div>
 
       </div>
+   
+      <!-- ALL-TIME STATS -->
 
+      <div class="grid grid-cols-2 gap-3 px-4 py-3
+            border-b border-white/[0.06]
+            bg-black/20">
+
+        <!-- WINS -->
+
+        <div class="relative overflow-hidden
+              rounded-xl
+              border border-emerald-400/15
+              bg-gradient-to-br
+              from-emerald-400/[0.08]
+              to-slate-950/60
+              px-4 py-3
+              flex items-center gap-3">
+
+          <div class="absolute -top-8 -left-8
+                w-20 h-20 rounded-full
+                bg-emerald-400/10 blur-2xl">
+          </div>
+
+          <div class="relative w-10 h-10 shrink-0
+                rounded-xl
+                bg-emerald-400/10
+                border border-emerald-400/15
+                flex items-center justify-center
+                text-xl">
+            🏆
+          </div>
+
+          <div class="relative min-w-0">
+            <p class="text-[9px] uppercase
+                tracking-[0.2em]
+                font-bold text-emerald-300/70">
+              ALL-TIME WINS
+            </p>
+
+            <p id="totalWins" class="text-2xl font-black
+                text-emerald-300
+                leading-tight
+                drop-shadow-[0_0_12px_rgba(52,211,153,0.2)]">
+              0
+            </p>
+          </div>
+
+        </div>
+
+
+        <!-- LOSSES -->
+
+        <div class="relative overflow-hidden
+              rounded-xl
+              border border-rose-400/15
+              bg-gradient-to-br
+              from-rose-400/[0.08]
+              to-slate-950/60
+              px-4 py-3
+              flex items-center gap-3">
+
+          <div class="absolute -top-8 -right-8
+                w-20 h-20 rounded-full
+                bg-rose-400/10 blur-2xl">
+          </div>
+
+          <div class="relative w-10 h-10 shrink-0
+                rounded-xl
+                bg-rose-400/10
+                border border-rose-400/15
+                flex items-center justify-center
+                text-xl">
+            💀
+          </div>
+
+          <div class="relative min-w-0">
+            <p class="text-[9px] uppercase
+                tracking-[0.2em]
+                font-bold text-rose-300/70">
+              ALL-TIME LOSSES
+            </p>
+
+            <p id="totalLosses" class="text-2xl font-black
+                text-rose-300
+                leading-tight
+                drop-shadow-[0_0_12px_rgba(251,113,133,0.2)]">
+              0
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+  
 
       <!-- GAME CONTENT -->
 
