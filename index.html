@@ -1,1031 +1,436 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veyro • Rock Paper Scissors</title>
 
-  <title>Rock Paper Scissors</title>
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Chakra Petch"', 'system-ui', 'sans-serif'],
+            body: ['Outfit', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    .hand {
-      animation: idle 2s ease-in-out infinite;
+    body { font-family: 'Outfit', system-ui, sans-serif; }
+    .font-display { font-family: 'Chakra Petch', system-ui, sans-serif; }
+
+    /* ===== Animation hooks used by your JS (names unchanged) ===== */
+    .hand { animation: idle 2.4s ease-in-out infinite; }
+    .shaking { animation: shake 0.35s ease-in-out infinite; }
+    .reveal { animation: reveal 0.35s ease-out; }
+
+    @keyframes idle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
     }
 
-    .shaking {
-      animation: shake 0.35s ease-in-out infinite;
+    @keyframes shake {
+      0% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-12px) rotate(-8deg); }
+      50% { transform: translateY(0) rotate(0deg); }
+      75% { transform: translateY(-12px) rotate(8deg); }
+      100% { transform: translateY(0) rotate(0deg); }
     }
 
-    .reveal {
-      animation: reveal 0.35s ease-out;
+    @keyframes reveal {
+      0% { transform: scale(0.6); opacity: 0.2; }
+      70% { transform: scale(1.18); opacity: 1; }
+      100% { transform: scale(1); }
     }
 
     @keyframes winnerPop {
-      0% {
-        transform: scale(0.4);
-        opacity: 0;
-      }
-
-      70% {
-        transform: scale(1.08);
-        opacity: 1;
-      }
-
-      100% {
-        transform: scale(1);
-      }
+      0% { transform: scale(0.4); opacity: 0; }
+      70% { transform: scale(1.08); opacity: 1; }
+      100% { transform: scale(1); }
     }
 
+    /* ===== Celebration fireworks ===== */
     .firework {
       position: absolute;
       font-size: 4rem;
       animation: firework 1.4s ease-out infinite;
     }
-
-    .firework-1 {
-      top: 15%;
-      left: 15%;
-    }
-
-    .firework-2 {
-      top: 20%;
-      right: 15%;
-      animation-delay: 0.3s;
-    }
-
-    .firework-3 {
-      top: 55%;
-      left: 8%;
-      animation-delay: 0.6s;
-    }
-
-    .firework-4 {
-      top: 60%;
-      right: 10%;
-      animation-delay: 0.9s;
-    }
-
-    .firework-5 {
-      top: 10%;
-      left: 48%;
-      animation-delay: 0.45s;
-    }
+    .firework-1 { top: 15%; left: 15%; color: #22d3ee; }
+    .firework-2 { top: 20%; right: 15%; color: #c084fc; animation-delay: 0.3s; }
+    .firework-3 { top: 55%; left: 8%; color: #f472b6; animation-delay: 0.6s; }
+    .firework-4 { top: 60%; right: 10%; color: #fbbf24; animation-delay: 0.9s; }
+    .firework-5 { top: 10%; left: 48%; color: #34d399; animation-delay: 0.45s; }
 
     @keyframes firework {
-      0% {
-        transform: scale(0);
-        opacity: 0;
-      }
-
-      30% {
-        transform: scale(1.5);
-        opacity: 1;
-      }
-
-      70% {
-        transform: scale(2.5);
-        opacity: 0.8;
-      }
-
-      100% {
-        transform: scale(3.5);
-        opacity: 0;
-      }
+      0% { transform: scale(0); opacity: 0; }
+      30% { transform: scale(1.5); opacity: 1; }
+      70% { transform: scale(2.5); opacity: 0.8; }
+      100% { transform: scale(3.5); opacity: 0; }
     }
 
-    @keyframes idle {
-
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-4px);
-      }
+    /* ===== Backdrop: neon floor grid ===== */
+    .grid-floor {
+      position: fixed;
+      left: -50%;
+      right: -50%;
+      bottom: -35%;
+      height: 70%;
+      background-image:
+        linear-gradient(rgba(34, 211, 238, 0.16) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168, 85, 247, 0.16) 1px, transparent 1px);
+      background-size: 56px 56px;
+      transform: perspective(500px) rotateX(62deg);
+      mask-image: linear-gradient(to top, black 10%, transparent 80%);
+      -webkit-mask-image: linear-gradient(to top, black 10%, transparent 80%);
+      pointer-events: none;
     }
 
-    @keyframes shake {
-      0% {
-        transform: translateY(0) rotate(0deg);
-      }
-
-      25% {
-        transform: translateY(-10px) rotate(-7deg);
-      }
-
-      50% {
-        transform: translateY(0) rotate(0deg);
-      }
-
-      75% {
-        transform: translateY(-10px) rotate(7deg);
-      }
-
-      100% {
-        transform: translateY(0) rotate(0deg);
-      }
+    .scanlines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 3px);
+      pointer-events: none;
+      mix-blend-mode: overlay;
     }
 
-    @keyframes reveal {
-      0% {
-        transform: scale(0.7);
-        opacity: 0.3;
-      }
+    /* ===== Fighter pods ===== */
+    .orb {
+      position: relative;
+      width: 8.5rem;
+      height: 8.5rem;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .orb::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      background: conic-gradient(from 0deg, var(--c1), transparent 35%, var(--c2), transparent 75%, var(--c1));
+      opacity: 0.55;
+      animation: spin 7s linear infinite;
+      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px));
+      mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px));
+    }
+    .orb::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 9999px;
+      background: radial-gradient(circle at 50% 35%, var(--glow), transparent 70%);
+      pointer-events: none;
+    }
+    .orb-user { --c1: #22d3ee; --c2: #3b82f6; --glow: rgba(34, 211, 238, 0.16); }
+    .orb-bot { --c1: #c084fc; --c2: #ec4899; --glow: rgba(192, 132, 252, 0.16); }
 
-      70% {
-        transform: scale(1.12);
-        opacity: 1;
-      }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-      100% {
-        transform: scale(1);
-      }
+    .orb .hand {
+      position: relative;
+      z-index: 2;
+      line-height: 1;
+      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.55));
+    }
+
+    /* ===== Weapon buttons ===== */
+    .choice-btn { -webkit-tap-highlight-color: transparent; }
+    .choice-btn:focus-visible,
+    #resetBtn:focus-visible,
+    #celebrationClose:focus-visible {
+      outline: 2px solid #22d3ee;
+      outline-offset: 3px;
+    }
+    .choice-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* VS badge */
+    .vs-badge {
+      box-shadow: 0 0 0 6px rgba(3, 5, 11, 0.9), 0 0 40px rgba(168, 85, 247, 0.45);
+    }
+
+    @media (max-width: 420px) {
+      .orb { width: 6.5rem; height: 6.5rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hand, .orb::before, .firework { animation: none !important; }
     }
   </style>
-
 </head>
 
-
 <body
-  class="min-h-screen relative overflow-x-hidden
-             bg-[#03050b] text-white
-             flex items-center justify-center
-             px-4 py-5
+  class="min-h-screen relative overflow-x-hidden bg-[#03050b] text-white flex items-center justify-center px-4 py-6
+         bg-[radial-gradient(ellipse_at_15%_10%,rgba(34,211,238,0.16),transparent_40%),radial-gradient(ellipse_at_85%_5%,rgba(168,85,247,0.20),transparent_42%),radial-gradient(ellipse_at_50%_100%,rgba(236,72,153,0.12),transparent_45%)]">
 
-             bg-[radial-gradient(circle_at_15%_20%,rgba(34,211,238,0.12),transparent_28%),radial-gradient(circle_at_85%_15%,rgba(168,85,247,0.14),transparent_30%),radial-gradient(circle_at_50%_100%,rgba(59,130,246,0.10),transparent_35%)]">
-
-
-  <!-- FLOATING BACKGROUND ICONS -->
-
+  <!-- BACKDROP -->
   <div class="fixed inset-0 overflow-hidden pointer-events-none">
-
-    <span class="absolute top-[14%] left-[5%]
-                 text-3xl opacity-[0.06]
-                 animate-[idle_5s_ease-in-out_infinite]">
-      ✊
-    </span>
-
-    <span class="absolute top-[28%] right-[7%]
-                 text-3xl opacity-[0.05]
-                 animate-[idle_6s_ease-in-out_infinite]
-                 [animation-delay:1s]">
-      ✌️
-    </span>
-
-    <span class="absolute bottom-[20%] left-[9%]
-                 text-2xl opacity-[0.05]
-                 animate-[idle_7s_ease-in-out_infinite]
-                 [animation-delay:2s]">
-      ✋
-    </span>
-
-    <span class="absolute bottom-[12%] right-[14%]
-                 text-2xl opacity-[0.05]
-                 animate-[idle_5s_ease-in-out_infinite]
-                 [animation-delay:1.5s]">
-      ✊
-    </span>
-
-    <span class="absolute top-[65%] left-[45%]
-                 w-1 h-1 rounded-full
-                 bg-cyan-300/20
-                 animate-pulse">
-    </span>
-
-    <span class="absolute top-[22%] left-[70%]
-                 w-1 h-1 rounded-full
-                 bg-purple-300/20
-                 animate-pulse
-                 [animation-delay:1s]">
-    </span>
-
+    <div class="grid-floor"></div>
+    <span class="absolute top-[12%] left-[6%] text-4xl opacity-[0.07] animate-[idle_5s_ease-in-out_infinite]">✊</span>
+    <span class="absolute top-[26%] right-[7%] text-4xl opacity-[0.06] animate-[idle_6s_ease-in-out_infinite] [animation-delay:1s]">✌️</span>
+    <span class="absolute bottom-[22%] left-[8%] text-3xl opacity-[0.06] animate-[idle_7s_ease-in-out_infinite] [animation-delay:2s]">✋</span>
+    <span class="absolute bottom-[14%] right-[12%] text-3xl opacity-[0.06] animate-[idle_5s_ease-in-out_infinite] [animation-delay:1.5s]">✊</span>
+    <span class="absolute top-[65%] left-[45%] w-1 h-1 rounded-full bg-cyan-300/30 animate-pulse"></span>
+    <span class="absolute top-[22%] left-[70%] w-1 h-1 rounded-full bg-purple-300/30 animate-pulse [animation-delay:1s]"></span>
+    <span class="absolute top-[40%] left-[20%] w-1 h-1 rounded-full bg-pink-300/30 animate-pulse [animation-delay:2s]"></span>
   </div>
 
-
   <!-- MAIN -->
-
   <main class="w-full max-w-3xl relative z-10">
 
-
     <!-- HEADER -->
-
-    <header class="text-center mb-5">
-
-      <div class="inline-flex items-center justify-center
-                  w-12 h-12
-                  rounded-2xl
-                  bg-gradient-to-br
-                  from-cyan-400/20
-                  to-purple-500/20
-                  border border-white/10
-                  text-2xl
-                  mb-3
-                  shadow-[0_0_30px_rgba(34,211,238,0.12)]
-                  backdrop-blur-xl
-                  animate-[idle_2s_ease-in-out_infinite]">
-
+    <header class="text-center mb-6">
+      <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl
+                  bg-gradient-to-br from-cyan-400/25 to-purple-500/25
+                  border border-white/15 text-3xl mb-3
+                  shadow-[0_0_40px_rgba(168,85,247,0.25)] backdrop-blur-xl
+                  animate-[idle_2.4s_ease-in-out_infinite]">
         🕹️
-
       </div>
 
-
-      <h1 class="text-2xl md:text-3xl
-                 font-black tracking-tight
-                 ">
-
-        👾 <b class="text-2xl md:text-3xl
-                 font-black tracking-tight
-                 bg-gradient-to-r
-                 from-cyan-300
-                 via-white
-                 to-purple-400
-                 bg-clip-text text-transparent">Veyro</b>
-
+      <h1 class="font-display text-4xl md:text-5xl font-bold tracking-tight">
+        👾 <b class="font-display font-bold tracking-[0.04em]
+                    bg-gradient-to-r from-cyan-300 via-white to-purple-400 bg-clip-text text-transparent
+                    drop-shadow-[0_0_22px_rgba(34,211,238,0.35)]">Veyro</b>
       </h1>
 
-
-      <p class="text-slate-500 mt-1 text-xs">
-
-        Best of 5 • Choose your weapon
-
-      </p>
-
-
+      <p class="text-slate-400 mt-2 text-sm">Best of 5. Pick a weapon and outsmart the bot.</p>
     </header>
 
-
     <!-- GAME CARD -->
+    <section class="relative rounded-[28px] border border-white/10
+                    bg-gradient-to-br from-slate-900/90 via-[#080d18]/95 to-purple-950/40
+                    shadow-[0_30px_100px_rgba(0,0,0,0.65),0_0_0_1px_rgba(255,255,255,0.03)_inset]
+                    overflow-hidden backdrop-blur-2xl">
 
-    <section class="relative
-                    rounded-3xl
-                    border border-white/[0.08]
-                    bg-gradient-to-br
-                    from-slate-900/95
-                    via-[#080d18]/95
-                    to-purple-950/30
-                    shadow-[0_25px_80px_rgba(0,0,0,0.55)]
-                    overflow-hidden
-                    backdrop-blur-2xl
-                    ring-1 ring-white/[0.03]">
-
+      <div class="scanlines"></div>
+      <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-300/60 to-transparent"></div>
 
       <!-- SCORE BAR -->
-
-      <div class="grid grid-cols-3
-                  border-b border-white/[0.06]
-                  bg-white/[0.015]">
-
+      <div class="relative grid grid-cols-3 border-b border-white/[0.07] bg-white/[0.02]">
 
         <!-- USER -->
-
-        <div class="px-4 py-3 text-center">
-
-          <p class="text-[9px]
-                    uppercase
-                    tracking-[0.25em]
-                    text-cyan-300/50">
-
-            👤 Player
-
-          </p>
-
-
-          <p id="userScore" class="text-2xl
-                    font-black
-                    mt-0.5
-                    text-cyan-300
-                    drop-shadow-[0_0_12px_rgba(34,211,238,0.3)]">
-
-            0
-
-          </p>
-
+        <div class="px-4 py-3.5 text-center bg-gradient-to-b from-cyan-400/[0.07] to-transparent">
+          <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 font-semibold">👤 Player</p>
+          <p id="userScore" class="font-display text-4xl font-bold mt-0.5 text-cyan-300 drop-shadow-[0_0_14px_rgba(34,211,238,0.45)]">0</p>
         </div>
-
 
         <!-- ROUND -->
-
-        <div class="px-4 py-3
-                    text-center
-                    border-x border-white/[0.06]">
-
-          <p class="text-[9px]
-                    uppercase
-                    tracking-[0.25em]
-                    text-slate-500">
-
-            Round
-
-          </p>
-
-
-          <p id="score" class="text-lg
-                    font-bold
-                    mt-0.5
-                    text-white">
-
+        <div class="px-4 py-3.5 text-center border-x border-white/[0.07] flex flex-col items-center justify-center">
+          <p class="text-[10px] uppercase tracking-[0.22em] text-slate-500 font-semibold">Round</p>
+          <p id="score" class="font-display text-2xl font-bold mt-0.5 text-white">
             <span id="round">0</span>
-
-            <span class="text-slate-600">
-              /
-            </span>
-
-            <span class="text-slate-400">
-              5
-            </span>
-
+            <span class="text-slate-600">/</span>
+            <span class="text-slate-400">5</span>
           </p>
-
         </div>
-
 
         <!-- COMPUTER -->
-
-        <div class="px-4 py-3 text-center">
-
-          <p class="text-[9px]
-                    uppercase
-                    tracking-[0.25em]
-                    text-purple-300/50">
-
-            👾 AI Bot
-
-          </p>
-
-
-          <p id="computerScore" class="text-2xl
-                    font-black
-                    mt-0.5
-                    text-purple-300
-                    drop-shadow-[0_0_12px_rgba(168,85,247,0.3)]">
-
-            0
-
-          </p>
-
+        <div class="px-4 py-3.5 text-center bg-gradient-to-b from-purple-400/[0.08] to-transparent">
+          <p class="text-[10px] uppercase tracking-[0.22em] text-purple-300/70 font-semibold">👾 AI Bot</p>
+          <p id="computerScore" class="font-display text-4xl font-bold mt-0.5 text-purple-300 drop-shadow-[0_0_14px_rgba(168,85,247,0.45)]">0</p>
         </div>
-
       </div>
-   
-      <!-- ALL-TIME STATS -->
 
-      <div class="grid grid-cols-2 gap-3 px-4 py-3
-            border-b border-white/[0.06]
-            bg-black/20">
+      <!-- ALL-TIME STATS -->
+      <div class="relative grid grid-cols-2 gap-3 px-4 py-3 border-b border-white/[0.07] bg-black/25">
 
         <!-- WINS -->
-
-        <div class="relative overflow-hidden
-              rounded-xl
-              border border-emerald-400/15
-              bg-gradient-to-br
-              from-emerald-400/[0.08]
-              to-slate-950/60
-              px-4 py-3
-              flex items-center gap-3">
-
-          <div class="absolute -top-8 -left-8
-                w-20 h-20 rounded-full
-                bg-emerald-400/10 blur-2xl">
-          </div>
-
-          <div class="relative w-10 h-10 shrink-0
-                rounded-xl
-                bg-emerald-400/10
-                border border-emerald-400/15
-                flex items-center justify-center
-                text-xl">
-            🏆
-          </div>
-
+        <div class="relative overflow-hidden rounded-xl border border-emerald-400/20
+                    bg-gradient-to-br from-emerald-400/[0.10] to-slate-950/60
+                    px-3.5 py-2.5 flex items-center gap-3">
+          <div class="absolute -top-8 -left-8 w-20 h-20 rounded-full bg-emerald-400/15 blur-2xl"></div>
+          <div class="relative w-10 h-10 shrink-0 rounded-xl bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center text-xl">🏆</div>
           <div class="relative min-w-0">
-            <p class="text-[9px] uppercase
-                tracking-[0.2em]
-                font-bold text-emerald-300/70">
-              ALL-TIME WINS
-            </p>
-
-            <p id="totalWins" class="text-2xl font-black
-                text-emerald-300
-                leading-tight
-                drop-shadow-[0_0_12px_rgba(52,211,153,0.2)]">
-              0
-            </p>
+            <p class="text-[10px] uppercase tracking-[0.16em] font-semibold text-emerald-300/80">All-time wins</p>
+            <p id="totalWins" class="font-display text-2xl font-bold text-emerald-300 leading-tight drop-shadow-[0_0_12px_rgba(52,211,153,0.3)]">0</p>
           </div>
-
         </div>
-
 
         <!-- LOSSES -->
-
-        <div class="relative overflow-hidden
-              rounded-xl
-              border border-rose-400/15
-              bg-gradient-to-br
-              from-rose-400/[0.08]
-              to-slate-950/60
-              px-4 py-3
-              flex items-center gap-3">
-
-          <div class="absolute -top-8 -right-8
-                w-20 h-20 rounded-full
-                bg-rose-400/10 blur-2xl">
-          </div>
-
-          <div class="relative w-10 h-10 shrink-0
-                rounded-xl
-                bg-rose-400/10
-                border border-rose-400/15
-                flex items-center justify-center
-                text-xl">
-            💀
-          </div>
-
+        <div class="relative overflow-hidden rounded-xl border border-rose-400/20
+                    bg-gradient-to-br from-rose-400/[0.10] to-slate-950/60
+                    px-3.5 py-2.5 flex items-center gap-3">
+          <div class="absolute -top-8 -right-8 w-20 h-20 rounded-full bg-rose-400/15 blur-2xl"></div>
+          <div class="relative w-10 h-10 shrink-0 rounded-xl bg-rose-400/10 border border-rose-400/20 flex items-center justify-center text-xl">💀</div>
           <div class="relative min-w-0">
-            <p class="text-[9px] uppercase
-                tracking-[0.2em]
-                font-bold text-rose-300/70">
-              ALL-TIME LOSSES
-            </p>
-
-            <p id="totalLosses" class="text-2xl font-black
-                text-rose-300
-                leading-tight
-                drop-shadow-[0_0_12px_rgba(251,113,133,0.2)]">
-              0
-            </p>
+            <p class="text-[10px] uppercase tracking-[0.16em] font-semibold text-rose-300/80">All-time losses</p>
+            <p id="totalLosses" class="font-display text-2xl font-bold text-rose-300 leading-tight drop-shadow-[0_0_12px_rgba(251,113,133,0.3)]">0</p>
           </div>
-
         </div>
-
       </div>
-  
 
       <!-- GAME CONTENT -->
-
-      <div class="p-4 md:p-5">
-
+      <div class="relative p-4 md:p-6">
 
         <!-- BATTLE -->
-
-        <div class="grid grid-cols-2 gap-3 md:gap-4">
-
+        <div class="relative grid grid-cols-2 gap-3 md:gap-5">
 
           <!-- USER HAND -->
+          <div class="relative rounded-2xl bg-gradient-to-b from-cyan-400/[0.09] via-slate-950/80 to-slate-950
+                      border border-cyan-300/15 px-3 pt-4 pb-3 md:px-4 md:pt-5 md:pb-4 text-center overflow-hidden
+                      shadow-[0_0_40px_rgba(34,211,238,0.08)] transition-all duration-300
+                      hover:border-cyan-300/30 hover:shadow-[0_0_55px_rgba(34,211,238,0.16)]">
+            <div class="absolute -top-16 -left-16 w-36 h-36 rounded-full bg-cyan-400/10 blur-3xl pointer-events-none"></div>
 
-          <div class="relative
-                      rounded-2xl
-                      bg-gradient-to-br
-                      from-cyan-400/[0.07]
-                      via-slate-950/80
-                      to-slate-950
-                      border border-cyan-300/[0.10]
-                      p-3 md:p-4
-                      text-center
-                      overflow-hidden
-                      shadow-[0_0_35px_rgba(34,211,238,0.06)]
-                      backdrop-blur-xl
-                      transition-all duration-300
-                      hover:border-cyan-300/20
-                      hover:shadow-[0_0_45px_rgba(34,211,238,0.10)]">
+            <p class="relative text-[10px] uppercase tracking-[0.28em] text-cyan-300/90 font-semibold mb-3">👤 Player</p>
 
-
-            <div class="absolute
-                        -top-16
-                        -left-16
-                        w-32 h-32
-                        rounded-full
-                        bg-cyan-400/5
-                        blur-3xl
-                        pointer-events-none">
+            <div class="orb orb-user">
+              <div id="userHand" class="hand flex items-center justify-center text-6xl md:text-7xl">❔</div>
             </div>
 
-
-            <p class="relative
-                      text-[9px]
-                      uppercase
-                      tracking-[0.3em]
-                      text-cyan-400/80">
-
-              👤 Player
-
-            </p>
-
-
-            <div id="userHand" class="hand h-24 md:h-28
-                        flex items-center
-                        justify-center
-                        text-6xl md:text-7xl
-                        relative">
-
-              ❔
-
-            </div>
-
-
-            <p id="userChoice" class="text-xs text-slate-500">
-
-              Waiting...
-
-            </p>
-
-
+            <p id="userChoice" class="relative mt-3 text-sm font-medium text-slate-400">Waiting...</p>
           </div>
-
 
           <!-- COMPUTER HAND -->
+          <div class="relative rounded-2xl bg-gradient-to-b from-purple-400/[0.10] via-slate-950/80 to-slate-950
+                      border border-purple-300/15 px-3 pt-4 pb-3 md:px-4 md:pt-5 md:pb-4 text-center overflow-hidden
+                      shadow-[0_0_40px_rgba(168,85,247,0.08)] transition-all duration-300
+                      hover:border-purple-300/30 hover:shadow-[0_0_55px_rgba(168,85,247,0.16)]">
+            <div class="absolute -top-16 -right-16 w-36 h-36 rounded-full bg-purple-400/10 blur-3xl pointer-events-none"></div>
 
-          <div class="relative
-                      rounded-2xl
-                      bg-gradient-to-br
-                      from-purple-400/[0.07]
-                      via-slate-950/80
-                      to-slate-950
-                      border border-purple-300/[0.10]
-                      p-3 md:p-4
-                      text-center
-                      overflow-hidden
-                      shadow-[0_0_35px_rgba(168,85,247,0.06)]
-                      backdrop-blur-xl
-                      transition-all duration-300
-                      hover:border-purple-300/20
-                      hover:shadow-[0_0_45px_rgba(168,85,247,0.10)]">
+            <p class="relative text-[10px] uppercase tracking-[0.28em] text-purple-300/90 font-semibold mb-3">👾 AI Bot</p>
 
-
-            <div class="absolute
-                        -top-16
-                        -right-16
-                        w-32 h-32
-                        rounded-full
-                        bg-purple-400/5
-                        blur-3xl
-                        pointer-events-none">
+            <div class="orb orb-bot">
+              <div id="computerHand" class="hand flex items-center justify-center text-6xl md:text-7xl">❔</div>
             </div>
 
-
-            <p class="relative
-                      text-[9px]
-                      uppercase
-                      tracking-[0.3em]
-                      text-purple-400/80">
-
-              👾 AI Bot
-
-            </p>
-
-
-            <div id="computerHand" class="hand h-24 md:h-28
-                        flex items-center
-                        justify-center
-                        text-6xl md:text-7xl
-                        relative">
-
-              ❔
-
-            </div>
-
-
-            <p id="computerChoice" class="text-xs text-slate-500">
-
-              Waiting...
-
-            </p>
-
-
+            <p id="computerChoice" class="relative mt-3 text-sm font-medium text-slate-400">Waiting...</p>
           </div>
 
-        </div>
-
-
-        <!-- VS -->
-
-        <div class="flex items-center
-                    gap-3
-                    my-4">
-
-          <div class="h-px
-                      flex-1
-                      bg-gradient-to-r
-                      from-transparent
-                      to-cyan-400/20">
-          </div>
-
-
-          <span class="text-[9px]
-                       font-black
-                       tracking-[0.25em]
-                       text-slate-600">
-
+          <!-- VS BADGE (sits between the two cards) -->
+          <div class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20
+                      vs-badge w-11 h-11 md:w-14 md:h-14 rounded-full
+                      bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-500
+                      flex items-center justify-center
+                      font-display font-bold text-xs md:text-sm tracking-wider text-white">
             VS
-
-          </span>
-
-
-          <div class="h-px
-                      flex-1
-                      bg-gradient-to-l
-                      from-transparent
-                      to-purple-400/20">
           </div>
-
         </div>
-
-
-        <!-- CHOICE BUTTONS -->
-
-        <div id="userbtn" class="max-w-lg mx-auto">
-
-          <p class="text-xs
-            font-semibold
-            text-slate-300
-            mb-3
-            text-center">
-
-            😈 Choose your weapon
-
-          </p>
-
-
-          <div class="grid grid-cols-3 gap-2.5">
-
-
-            <!-- ROCK -->
-
-            <button id="rockBtn" data-choice="rock" class="choice-btn group
-             relative
-             h-24 md:h-28
-             rounded-2xl
-             overflow-hidden
-             border border-white/[0.08]
-             bg-gradient-to-br
-             from-slate-900
-             to-slate-950
-             hover:border-cyan-300/30
-             hover:bg-cyan-400/[0.06]
-             hover:shadow-[0_0_30px_rgba(34,211,238,0.12)]
-             active:scale-90
-             transition-all duration-200">
-
-              <!-- Glow -->
-              <div class="absolute
-               -top-8
-               -left-8
-               w-20 h-20
-               rounded-full
-               bg-cyan-400/10
-               blur-2xl
-               opacity-0
-               group-hover:opacity-100
-               transition-opacity duration-300">
-              </div>
-
-
-              <div class="relative z-10
-                  flex flex-col
-                  items-center
-                  justify-center
-                  gap-1.5">
-
-                <b class="text-4xl
-                 transition-transform duration-200
-                 group-hover:-translate-y-1
-                 group-hover:scale-110">
-                  ✊
-                </b>
-
-                <span class="text-[10px]
-                 uppercase
-                 tracking-[0.2em]
-                 font-bold
-                 text-slate-400
-                 group-hover:text-cyan-300
-                 transition-colors">
-                  Rock
-                </span>
-
-              </div>
-
-            </button>
-
-
-            <!-- PAPER -->
-
-            <button id="paperBtn" data-choice="paper" class="choice-btn group
-             relative
-             h-24 md:h-28
-             rounded-2xl
-             overflow-hidden
-             border border-white/[0.08]
-             bg-gradient-to-br
-             from-slate-900
-             to-slate-950
-             hover:border-purple-300/30
-             hover:bg-purple-400/[0.06]
-             hover:shadow-[0_0_30px_rgba(168,85,247,0.12)]
-             active:scale-90
-             transition-all duration-200">
-
-              <!-- Glow -->
-              <div class="absolute
-               -top-8
-               -right-8
-               w-20 h-20
-               rounded-full
-               bg-purple-400/10
-               blur-2xl
-               opacity-0
-               group-hover:opacity-100
-               transition-opacity duration-300">
-              </div>
-
-
-              <div class="relative z-10
-                  flex flex-col
-                  items-center
-                  justify-center
-                  gap-1.5">
-
-                <b class="text-4xl
-                 transition-transform duration-200
-                 group-hover:-translate-y-1
-                 group-hover:scale-110">
-                  ✋
-                </b>
-
-                <span class="text-[10px]
-                 uppercase
-                 tracking-[0.2em]
-                 font-bold
-                 text-slate-400
-                 group-hover:text-purple-300
-                 transition-colors">
-                  Paper
-                </span>
-
-              </div>
-
-            </button>
-
-
-            <!-- SCISSORS -->
-
-            <button id="scissorsBtn" data-choice="scissors" class="choice-btn group
-             relative
-             h-24 md:h-28
-             rounded-2xl
-             overflow-hidden
-             border border-white/[0.08]
-             bg-gradient-to-br
-             from-slate-900
-             to-slate-950
-             hover:border-pink-300/30
-             hover:bg-pink-400/[0.06]
-             hover:shadow-[0_0_30px_rgba(236,72,153,0.12)]
-             active:scale-90
-             transition-all duration-200">
-
-              <!-- Glow -->
-              <div class="absolute
-               -bottom-8
-               right-0
-               w-20 h-20
-               rounded-full
-               bg-pink-400/10
-               blur-2xl
-               opacity-0
-               group-hover:opacity-100
-               transition-opacity duration-300">
-              </div>
-
-
-              <div class="relative z-10
-                  flex flex-col
-                  items-center
-                  justify-center
-                  gap-1.5">
-
-                <b class="text-4xl
-                 transition-transform duration-200
-                 group-hover:-translate-y-1
-                 group-hover:scale-110">
-                  ✌️
-                </b>
-
-                <span class="text-[10px]
-                 uppercase
-                 tracking-[0.2em]
-                 font-bold
-                 text-slate-400
-                 group-hover:text-pink-300
-                 transition-colors">
-                  Scissors
-                </span>
-
-              </div>
-
-            </button>
-
-          </div>
-
-
-          <p class="text-[10px]
-            text-slate-600
-            mt-3
-            text-center">
-
-            Choose your move and let the battle begin ⚡
-
-          </p>
-
-        </div>
-
 
         <!-- RESULT -->
-
-        <div id="resultBox" class="mt-4
-                    rounded-xl
-                    border border-white/[0.07]
-                    bg-gradient-to-r
-                    from-cyan-400/[0.025]
-                    to-purple-400/[0.025]
-                    px-4 py-3
-                    text-center
-                    shadow-inner">
-
-
-          <p class="text-sm
-                    
-                    tracking-[0.1em]
-                    text-slate-600
-                    mb-1">
-
-            Can You Beat the Bot?
-
-          </p>
-
-
-          <p id="result" class="text-base
-                    font-black
-                    text-slate-400">
-
-            Let’s See What You’ve Got 😏
-
-          </p>
-
-
+        <div id="resultBox" class="relative mt-5 rounded-2xl border border-white/10
+                    bg-gradient-to-r from-cyan-400/[0.05] via-white/[0.02] to-purple-400/[0.05]
+                    px-4 py-4 text-center shadow-inner">
+          <p class="text-xs tracking-[0.12em] text-slate-500 mb-1">Can you beat the bot?</p>
+          <p id="result" class="font-display text-xl md:text-2xl font-bold text-slate-300">Let’s See What You’ve Got 😏</p>
         </div>
 
+        <!-- CHOICE BUTTONS -->
+        <div id="userbtn" class="max-w-xl mx-auto mt-6">
+          <p class="text-sm font-semibold text-slate-200 mb-3 text-center">😈 Choose your weapon</p>
+
+          <div class="grid grid-cols-3 gap-3">
+
+            <!-- ROCK -->
+            <button id="rockBtn" data-choice="rock" class="choice-btn group relative h-28 md:h-32 rounded-2xl overflow-hidden
+                    border border-white/10 bg-gradient-to-b from-slate-800/80 to-slate-950
+                    hover:border-cyan-300/50 hover:from-cyan-400/[0.12] hover:to-slate-950
+                    hover:shadow-[0_0_35px_rgba(34,211,238,0.22)]
+                    hover:-translate-y-1 active:scale-90 active:translate-y-0 transition-all duration-200">
+              <div class="absolute -top-8 -left-8 w-24 h-24 rounded-full bg-cyan-400/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div class="relative z-10 flex flex-col items-center justify-center gap-2">
+                <b class="text-5xl transition-transform duration-200 group-hover:scale-110 group-hover:-rotate-6">✊</b>
+                <span class="text-xs uppercase tracking-[0.18em] font-bold text-slate-400 group-hover:text-cyan-300 transition-colors">Rock</span>
+              </div>
+            </button>
+
+            <!-- PAPER -->
+            <button id="paperBtn" data-choice="paper" class="choice-btn group relative h-28 md:h-32 rounded-2xl overflow-hidden
+                    border border-white/10 bg-gradient-to-b from-slate-800/80 to-slate-950
+                    hover:border-purple-300/50 hover:from-purple-400/[0.12] hover:to-slate-950
+                    hover:shadow-[0_0_35px_rgba(168,85,247,0.25)]
+                    hover:-translate-y-1 active:scale-90 active:translate-y-0 transition-all duration-200">
+              <div class="absolute -top-8 -right-8 w-24 h-24 rounded-full bg-purple-400/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div class="relative z-10 flex flex-col items-center justify-center gap-2">
+                <b class="text-5xl transition-transform duration-200 group-hover:scale-110 group-hover:rotate-6">✋</b>
+                <span class="text-xs uppercase tracking-[0.18em] font-bold text-slate-400 group-hover:text-purple-300 transition-colors">Paper</span>
+              </div>
+            </button>
+
+            <!-- SCISSORS -->
+            <button id="scissorsBtn" data-choice="scissors" class="choice-btn group relative h-28 md:h-32 rounded-2xl overflow-hidden
+                    border border-white/10 bg-gradient-to-b from-slate-800/80 to-slate-950
+                    hover:border-pink-300/50 hover:from-pink-400/[0.12] hover:to-slate-950
+                    hover:shadow-[0_0_35px_rgba(236,72,153,0.25)]
+                    hover:-translate-y-1 active:scale-90 active:translate-y-0 transition-all duration-200">
+              <div class="absolute -bottom-8 right-0 w-24 h-24 rounded-full bg-pink-400/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div class="relative z-10 flex flex-col items-center justify-center gap-2">
+                <b class="text-5xl transition-transform duration-200 group-hover:scale-110 group-hover:-rotate-6">✌️</b>
+                <span class="text-xs uppercase tracking-[0.18em] font-bold text-slate-400 group-hover:text-pink-300 transition-colors">Scissors</span>
+              </div>
+            </button>
+          </div>
+
+          <p class="text-xs text-slate-500 mt-3 text-center">Choose your move and let the battle begin ⚡</p>
+        </div>
 
         <!-- BOTTOM -->
-
-        <div class="flex
-                    items-center
-                    justify-between
-                    mt-3">
-
-
-          <p id="gameStatus" class="text-[10px]
-                    text-slate-600">
-
+        <div class="flex items-center justify-between mt-5 pt-4 border-t border-white/[0.06]">
+          <p id="gameStatus" class="text-xs text-slate-500 flex items-center gap-2">
             Game in progress
-
           </p>
 
-
-          <button id="resetBtn" data-action="reset" class="text-[10px]
-                         font-medium
-                         text-slate-500
-                         hover:text-cyan-300
-                         hover:-translate-y-0.5
-                         transition-all duration-200">
-
+          <button id="resetBtn" data-action="reset" class="text-xs font-medium text-slate-400
+                         px-3 py-1.5 rounded-lg border border-white/10 bg-white/[0.03]
+                         hover:text-cyan-300 hover:border-cyan-300/40 hover:bg-cyan-400/[0.06]
+                         hover:-translate-y-0.5 active:scale-95 transition-all duration-200">
             ↻ Reset Game
-
           </button>
-
-
         </div>
 
-
       </div>
-
     </section>
-
-
   </main>
 
-
   <!-- Celebration Overlay -->
-
-  <div id="celebration" class="fixed inset-0 z-50 hidden
-              items-center justify-center
-              bg-[#02040a]/80
-              backdrop-blur-xl
-              px-4">
-
+  <div id="celebration" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#02040a]/85 backdrop-blur-xl px-4">
 
     <!-- Fireworks -->
-
-    <div class="absolute inset-0
-                overflow-hidden
-                pointer-events-none">
-
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
       <div class="firework firework-1">✦</div>
       <div class="firework firework-2">✦</div>
       <div class="firework firework-3">✦</div>
       <div class="firework firework-4">✦</div>
       <div class="firework firework-5">✦</div>
-
     </div>
-
 
     <!-- Winning Card -->
-
-    <div class="relative
-                text-center
-                px-8 py-10
-                rounded-3xl
-                border border-cyan-300/20
-                bg-gradient-to-br
-                from-cyan-400/10
-                via-slate-900/80
-                to-purple-500/10
-                backdrop-blur-2xl
-                shadow-[0_0_100px_rgba(34,211,238,0.20)]
+    <div class="relative text-center px-8 py-10 md:px-14 rounded-3xl border border-cyan-300/25
+                bg-gradient-to-br from-cyan-400/15 via-slate-900/85 to-purple-500/15 backdrop-blur-2xl
+                shadow-[0_0_120px_rgba(34,211,238,0.28),0_0_60px_rgba(168,85,247,0.18)]
                 animate-[winnerPop_0.6s_ease-out]">
+      <div class="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent"></div>
 
+      <div class="text-7xl mb-4 drop-shadow-[0_0_30px_rgba(250,204,21,0.45)] animate-[idle_2s_ease-in-out_infinite]">🏆</div>
 
-      <div class="text-7xl mb-4
-                  drop-shadow-[0_0_25px_rgba(250,204,21,0.25)]">
-
-        🏆
-
-      </div>
-
-
-      <h1 class="text-6xl md:text-8xl
-                 font-black
-                 bg-gradient-to-r
-                 from-cyan-300
-                 via-white
-                 to-purple-400
-                 bg-clip-text
-                 text-transparent">
-
+      <h1 class="font-display text-6xl md:text-8xl font-bold tracking-tight
+                 bg-gradient-to-r from-cyan-300 via-white to-purple-400 bg-clip-text text-transparent">
         YOU WON!
-
       </h1>
 
+      <p id="celebrationTitle" class="mt-4 text-xl md:text-2xl font-semibold text-white">Congratulations! 🎉</p>
+      <p id="winningMessage" class="mt-2 text-sm md:text-base text-slate-300">What a comeback! You absolutely crushed it.</p>
 
-      <p id="celebrationTitle" class="mt-4
-                text-xl md:text-2xl
-                font-semibold
-                text-white">
-
-        Congratulations! 🎉
-
-      </p>
-
-
-      <p id="winningMessage" class="mt-2
-                text-sm md:text-base
-                text-slate-300">
-
-        What a comeback! You absolutely crushed it.
-
-      </p>
-
-
-      <button id="celebrationClose" class="mt-7
-                     px-6 py-3
-                     rounded-xl
-                     bg-white
-                     text-black
-                     font-bold
-                     shadow-[0_8px_25px_rgba(255,255,255,0.12)]
-                     hover:scale-105
-                     hover:shadow-[0_12px_35px_rgba(255,255,255,0.18)]
-                     active:scale-95
-                     transition-all">
-
+      <button id="celebrationClose" class="mt-8 px-7 py-3 rounded-xl bg-white text-black font-bold
+                     shadow-[0_8px_30px_rgba(255,255,255,0.18)]
+                     hover:scale-105 hover:shadow-[0_12px_40px_rgba(34,211,238,0.35)]
+                     active:scale-95 transition-all">
         Continue Playing
-
       </button>
-
-
     </div>
-
   </div>
 
-
   <script src="index.js"></script>
-
 </body>
 
 </html>
